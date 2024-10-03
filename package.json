@@ -1,0 +1,24 @@
+{
+  "name": "@boilerplate/repo",
+  "version": "XXXX",
+  "workspaces": [
+    "packages/*",
+    "examples/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "bump": "npm version --workspaces --include-workspace-root --no-workspaces-update --no-git-tag-version --no-commit-hooks"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "5.6.2"
+  },
+  "dependencies": {
+    "turbo": "^2.1.2"
+  },
+  "packageManager": "bun@1.1.26"
+}
