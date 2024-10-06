@@ -1,18 +1,20 @@
 {
-  "name": "@boilerplate/examples-next",
+  "name": "@rhf-step/examples-next",
   "version": "0.0.14",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .next",
+    "fclean": "rm -rf .next .turbo node_modules"
   },
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
     "next": "14.2.13",
-    "library": "workspace:*"
+    "rhf-step": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5",

@@ -1,8 +1,9 @@
 {
-  "name": "library",
-  "version": "XXXXXXX",
-  "description": "DESCRIPTION",
+  "name": "rhf-step",
+  "version": "0.0.0",
+  "description": "A react hook from wrapper for handle step",
   "license": "MIT",
+  "type": "module",
   "author": {
     "name": "Arthur tinseau",
     "email": "arthurtinseau@live.fr",
@@ -10,8 +11,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "XXXXXXXX",
-    "directory": "XXXXX"
+    "url": "https://github.com/atinseau/rhf-step",
+    "directory": "packages/rhf-step"
   },
   "homepage": "XXXXXXX",
   "keywords": [],
@@ -28,13 +29,24 @@
   ],
   "scripts": {
     "dev": "rollup --config rollup.config.mjs --watch",
-    "build": "rm -rf dist && rollup --config rollup.config.mjs"
+    "build": "rm -rf dist && rollup --config rollup.config.mjs",
+    "clean": "rm -rf dist",
+    "fclean": "rm -rf dist node_modules .turbo"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "15.3.0",
     "@rollup/plugin-typescript": "12.1.0",
+    "@types/lodash-es": "^4.17.12",
+    "@types/react": "18.3.11",
+    "react": "18.3.1",
     "rollup": "4.22.4",
     "rollup-plugin-esbuild-minify": "1.1.2",
+    "rollup-plugin-preserve-directives": "0.4.0",
     "typescript": "5.6.2"
+  },
+  "dependencies": {
+    "jotai": "2.10.0",
+    "lodash-es": "4.17.21",
+    "react-hook-form": "7.53.0"
   }
 }

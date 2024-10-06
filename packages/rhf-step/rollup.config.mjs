@@ -1,9 +1,8 @@
 import { defineConfig } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { minify } from 'rollup-plugin-esbuild-minify'
-
+import preserveDirectives from "rollup-plugin-preserve-directives";
 import typescript from '@rollup/plugin-typescript';
-
 
 export default defineConfig((args) => {
 
@@ -21,14 +20,24 @@ export default defineConfig((args) => {
       preserveModulesRoot: 'src',
       sourcemap: isWatch,
     },
+    onwarn(warning, warn) {
+      if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+        return
+      }
+      warn(warning)
+    },
     external: [
-      'zod',
-      'react'
+      'react',
+      'react/jsx-runtime',
+      'jotai'
     ],
     plugins: [
+      preserveDirectives({
+        suppressPreserveModulesWarning: true
+      }),
       typescript(),
       nodeResolve(),
-      ...(!isWatch ? [minify()] : [])
+      ...(!isWatch ? [minify()] : []),
     ],
     watch: {
       include: 'src/**',

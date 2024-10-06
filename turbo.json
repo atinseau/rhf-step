@@ -10,6 +10,14 @@
         "^build"
       ],
       "outputs": []
+    },
+    "clean": {
+      "persistent": true,
+      "cache": false
+    },
+    "fclean": {
+      "persistent": true,
+      "cache": false
     }
   }
 }
