@@ -1,8 +1,10 @@
 'use client';
 
 export { FormProvider } from './contexts/FormContext/FormProvider'
-export { RenderStep } from './components/RenderStep'
+export { useFormSubmit } from './contexts/FormContext/hooks/useFormSubmit'
 
+export { RenderStep } from './components/RenderStep'
+export { useFormNavigation } from './contexts/FormNavigationContext'
 export { useForm } from './hooks/useForm/useForm'
 
 export type { FormStep, SubmitHandler } from './types'

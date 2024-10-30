@@ -14,12 +14,14 @@
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "outDir": "dist",
-    "types": ["node"],
+    "types": ["node", "cypress"],
 
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ],
 }

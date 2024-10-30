@@ -1,95 +1,79 @@
-import { PrimitiveAtom } from "jotai"
-import { BaseSyntheticEvent } from "react"
-import {
-  FieldValues,
-  UseFormReturn as RHFUseFormReturn,
-  UseFormProps as RHFUseFormProps
-} from "react-hook-form"
+import React from "react";
+import { FieldValues, UseFormReturn as UseFormReturnRHF } from "react-hook-form";
 
 // COMMON
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'log'
+export type LogLevel = 'info' | 'warn' | 'error' | 'log'
 
 // HANDLERS
 
-export type BeforeStepChangeHandler = (stepIndex: number, subStepIndex?: number) => Promise<any> | any
+export type StepChangeHandler<T> = (stepIndex: number, subStepIndex?: number) => T
+export type BeforeStepChangeHandler = StepChangeHandler<boolean | Promise<boolean> | void | Promise<void>>
+export type OnStepChangeHandler = StepChangeHandler<void | Promise<void>>
 
-export type SubmitCallback = (data: { result: boolean | Error | null, data: Record<string, any> }) => void
+export type SubmitCallback = (data: {
+  result: boolean | Error | null,
+  data: Record<string, any>
+}) => void
 
 export type SubmitHandler<T> = (
   data: T,
-  mergedData?: Record<string, any>,
-  e?: BaseSyntheticEvent<object, any, any>,
-) => Promise<boolean> | boolean
+  event: React.BaseSyntheticEvent<object, any, any>
+) => Promise<boolean> | boolean | Promise<void> | void
 
 export type FormSubscribe = (
   stepIndex: number,
   subStepIndex: number,
-  // form: UseFormStepReturn,
-  form: any,
-  formRef: React.RefObject<HTMLFormElement>,
-  // formPropsRef: React.RefObject<UseFormProps<any, any>>,
-  formPropsRef: any,
-  formStepContext: FormStepContext
+  form: UseFormReturn<any, any>,
 ) => void
 
-// HOOK
+export type FormUnsubscribe = (
+  stepIndex: number,
+  subStepIndex: number,
+) => void
 
-export type UseFormOptions<TFieldValues extends FieldValues = FieldValues, TContext = any> = RHFUseFormProps<TFieldValues, TContext> & {
-  withInitialValidation?: boolean
-  // defaultAsDirty?: boolean
-}
 
-export type UseFormReturn<T> = Omit<RHFUseFormReturn<T>, 'handleSubmit'> & {
-  formRef: React.RefObject<HTMLFormElement>,
-  step: FormStep,
-  defaultValues: Record<string, any>,
-  handleSubmit: (onSubmit?: SubmitHandler<T>) => (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>,
-  // withValues: (callback: (values: Record<string, any>) => void) => () => void,
-  // setErrors: (errors: Array<{ key: string, message: string }> | Record<string, string>, forcedDisplay?: boolean) => void,
-  // validate: () => void,
-}
+export type StepMatrix<T> = Record<number,
+  Record<number, T>
+> 
 
-export type FormStepContext = {
-  isSubmittingAtom: PrimitiveAtom<boolean>
-  isValidAtom: PrimitiveAtom<boolean>
-}
-
-export type SubmissionHistory = Record<string, {
-  value: any,
-  stepIndex: number
-  subStepIndex: number
-  error?: string
-}>
-
-export type FormRefs = Record<number, Record<number,
-  & UseFormReturn<any>
-  & {
-    formPropsRef?: React.RefObject<UseFormOptions<any, any>>,
-    formStepContext?: FormStepContext
-  }
->>
-
+export type FormRefs = StepMatrix<UseFormReturn<any>>
+export type StepMemory = StepMatrix<Record<string, any>>
 
 
 export type FormStep = {
   title?: string
+  // it's a basic component that will be rendered inside of a form
+  // submit warn will not be triggered
+  // it's useful when you want to render a component that is not a form
+  // but you still want to use the form context
+  standalone?: boolean
   components: React.ComponentType[]
-  keepValues?: boolean
-  defaultValues?: Record<string, any>
-  prev?: {
-    scoped?: boolean
-    global?: boolean
-    allowed?: number[]
-  }
 }
 
 
-export type CurrentSubmission = {
-  data: Record<string, any>,
-  stepIndex: number
-  subStepIndex: number
-  errors?: Record<string, string>
+
+type UseFormOverridedMembers =
+  | 'handleSubmit'
+
+export type UseFormHandleSubmitReturn = {
+  ref: React.RefObject<HTMLFormElement>
+  onSubmit: React.FormEventHandler<HTMLFormElement> | undefined
 }
 
+export type UseFormHandleSubmit<
+  TFieldValues extends FieldValues = FieldValues
+> = (submitHandler?: SubmitHandler<TFieldValues>) => UseFormHandleSubmitReturn
 
+export type UseFormCreateSubmitHandler<TFieldValues> = UseFormHandleSubmit<TFieldValues>
+
+export type UseFormReturn<
+  TFieldValues extends FieldValues = FieldValues,
+  TContext = any,
+> = Omit<UseFormReturnRHF<TFieldValues, TContext, undefined>, UseFormOverridedMembers> & {
+
+  handleSubmit: UseFormHandleSubmit<TFieldValues>
+  createSubmitHandler: UseFormCreateSubmitHandler<TFieldValues>
+  ref: React.RefObject<HTMLFormElement>
+
+}

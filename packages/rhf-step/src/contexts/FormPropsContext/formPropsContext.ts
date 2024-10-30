@@ -1,20 +1,35 @@
 import { createContext } from "react"
-import type { BeforeStepChangeHandler, FormStep, LogLevel } from "../../types"
+import type { FormStep, LogLevel, BeforeStepChangeHandler, OnStepChangeHandler } from "../../types"
 
 export type IFormPropsContext = {
   children?: React.ReactNode
+  className?: string // enable container mode
   initialStepIndex?: number
   enableLog?: boolean
   logLevel?: LogLevel[]
   initialSubStepIndex?: number
-  autoReset?: boolean
   defaultValues?: Record<string, any>
   steps: FormStep[] | React.ComponentType
   onError?: (error: Error) => void
+
+  // hooks
+  // before<event> is called before the event is triggered
+  // so event can be cancelled
+  // on<event> has no effect on the action
+  // before the event is already triggered
+
   beforeStepChange?: BeforeStepChangeHandler
-  onPreviousStep?: (stepIndex: number, subStepIndex: number) => void | Promise<void>
-  onFirstStepBack?: () => void
-  afterLastStep?: () => void
+  onStepChange?: OnStepChangeHandler
+
+  beforePreviousStep?: BeforeStepChangeHandler
+  onPreviousStep?: OnStepChangeHandler
+
+  beforeNextStep?: BeforeStepChangeHandler
+  onNextStep?: OnStepChangeHandler
+
+  // Special hooks
+  onPreviousFirstStep?: OnStepChangeHandler
+  onLastStep?: OnStepChangeHandler
 }
 
 // The FormPropsContext is used to pass props across the Form components

@@ -9,9 +9,7 @@ export function useFormComponent() {
 
   const Component = useMemo(() => {
     const step = steps[stepIndex]
-    const component = step.components[subStepIndex]
-
-    return component
+    return step?.components?.[subStepIndex]
   }, [
     steps,
     stepIndex,

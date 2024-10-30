@@ -9,7 +9,7 @@ export function FormPropsProvider(props: FormPropsProviderProps) {
     value={{
       ...props,
       enableLog: props.enableLog ?? false,
-      logLevel: props.logLevel ?? ["debug", "error", "info", "log", "warn"],
+      logLevel: props.logLevel ?? ["error", "info", "log", "warn"],
       children: props.formChildren
     }}
   >

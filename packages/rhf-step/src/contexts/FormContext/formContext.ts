@@ -1,12 +1,12 @@
-import type { CurrentSubmission, FormSubscribe, SubmitCallback } from "../../types"
+import type { FormSubscribe, FormUnsubscribe, SubmitCallback } from "../../types"
 import { createContext } from "react"
 
 export type IFormContext = {
-  getCurrentSubmission: (fromKeys?: string[]) => CurrentSubmission
-  updateSubmissionHistory: (data: Record<string, any>) => void
   subscribe: FormSubscribe
+  unsubscribe: FormUnsubscribe
   onSubmit: () => void
   onSubmitCallback: SubmitCallback
+  updateStepMemory: (data: Record<string, any>) => void
   Component: React.ComponentType
 }
 

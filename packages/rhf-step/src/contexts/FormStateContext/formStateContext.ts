@@ -1,19 +1,17 @@
-import type { FormRefs, FormStep, SubmissionHistory } from "../../types";
-import { createContext } from "react";
+import type { FormRefs, FormStep, StepMemory, UseFormReturn } from "../../types";
+import React, { createContext } from "react";
 
 export type IFormStateContext = {
   steps: FormStep[]
   stepIndex: number
   subStepIndex: number
-  afterSubmitHandlerRef: React.MutableRefObject<EventListener>
-  submissionHistoryRef: React.MutableRefObject<SubmissionHistory>
-  mergedValuesRef: React.MutableRefObject<Record<string, any>>
-  watchedValuesRef: React.MutableRefObject<Record<string, any>>
+  prevIndexesRef: React.MutableRefObject<{ stepIndex: number, subStepIndex: number }>
   formRefs: React.MutableRefObject<FormRefs>
+  stepMemoryRef: React.MutableRefObject<StepMemory>
   setSteps: (steps: FormStep[]) => void
   setStepIndex: (stepIndex: number) => void
   setSubStepIndex: (subStepIndex: number) => void
-  getForm: (si: number, ssi: number) => FormRefs[number][number]
+  getForm: (si: number, ssi: number) =>  UseFormReturn<any> | null
 }
 
 // The formStateContext is used to share every internal state of the form between every hooks or components

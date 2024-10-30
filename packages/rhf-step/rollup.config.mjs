@@ -35,7 +35,12 @@ export default defineConfig((args) => {
       preserveDirectives({
         suppressPreserveModulesWarning: true
       }),
-      typescript(),
+      typescript({
+        exclude: [
+          'cypress',
+          '**/*.cy.tsx'
+        ]
+      }),
       nodeResolve(),
       ...(!isWatch ? [minify()] : []),
     ],

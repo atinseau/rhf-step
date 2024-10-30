@@ -14,8 +14,16 @@ export function FormDebugProvider(props: { children?: React.ReactNode }) {
     }
     if (logLevel.includes(level)) {
       console[level](...args)
+    } else {
+      console.error('[FormDebugProvider] logLevel is not valid')
     }
   }, [])
+
+  const wrap = (fn: (...args: any[]) => void, name: string) => {
+    return (...args: any[]) => {
+      fn(`[${name}]`, ...args)
+    }
+  }
 
   const log = useCallback((...args: any[]) => {
     print('log', ...args)
@@ -33,18 +41,22 @@ export function FormDebugProvider(props: { children?: React.ReactNode }) {
     print('error', ...args)
   }, [])
 
-  const debug = useCallback((...args: any[]) => {
-    print('debug', ...args)
+  const createLogger = useCallback((name: string) => {
+    return {
+      log: wrap(log, name),
+      info: wrap(info, name),
+      warn: wrap(warn, name),
+      error: wrap(error, name),
+    }
   }, [])
 
   return <FormDebugContext.Provider
     value={{
-      print,
       log,
       info,
       warn,
       error,
-      debug,
+      createLogger
     }}
   >
     {props.children}
