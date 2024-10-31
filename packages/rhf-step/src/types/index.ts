@@ -35,7 +35,7 @@ export type FormUnsubscribe = (
 
 export type StepMatrix<T> = Record<number,
   Record<number, T>
-> 
+>
 
 export type FormRefs = StepMatrix<UseFormReturn<any>>
 export type StepMemory = StepMatrix<Record<string, any>>
@@ -48,6 +48,9 @@ export type FormStep = {
   // it's useful when you want to render a component that is not a form
   // but you still want to use the form context
   standalone?: boolean
+  // If the step is persistent, state will be stored in the localStorage and restored on application
+  // load inside the stepMemory at the right indexes (stepIndex, subStepIndex)
+  peristent?: boolean
   components: React.ComponentType[]
 }
 

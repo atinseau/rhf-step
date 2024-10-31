@@ -8,6 +8,7 @@ import { useHandleSubmit } from "./useHandleSubmit"
 import { useFormDebug } from "../../contexts/FormDebugContext/hooks/useFormDebug"
 import { useFormContext } from "../../contexts/FormContext"
 import { useFormState } from "../../contexts/FormStateContext"
+import { useWatchedForm } from "./useWatchedForm"
 
 function getDefaultValues({ stepMemoryDefaultValues, providerDefaultValues }: {
   stepMemoryDefaultValues?: Record<string, any>
@@ -35,8 +36,10 @@ export function useForm<
       providerDefaultValues: props?.defaultValues
     })
   })
+
   const { formRef, createSubmitHandler, handleSubmit } = useHandleSubmit(form)
 
+  useWatchedForm(form)
 
   const output = {
     ...form,

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FormStateContext } from "./formStateContext";
 import { useFormProps } from "../FormPropsContext/hooks/useFormProps";
-import type { FormRefs, FormStep, StepMatrix, StepMemory } from "../../types";
+import { FormRefs, FormStep, StepMemory } from "../../types";
 
 // Initialize the formStateContext
 // Declare every internal state and pass it to the formStateContext

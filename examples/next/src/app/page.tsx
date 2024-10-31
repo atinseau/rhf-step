@@ -31,7 +31,7 @@ function Form1() {
   const [count, setCount] = useState(0)
 
   const submitHandler = createSubmitHandler(async (data, event) => {
-    console.log(data, event, count)
+    console.log(data, count)
   })
 
   return <form
@@ -45,11 +45,20 @@ function Form1() {
       {errors.name && <FormMessage message={errors.name.message} />}
     </FormItem>
 
-    <div className="space-y-2">
+    <FormItem>
       <Label htmlFor="age">Age</Label>
-      <Input type="number" {...register('age')} />
+      <Input
+        placeholder="10"
+        type="number"
+        {...register('age', {
+          valueAsNumber: true,
+          required: { message: "Age is required", value: true },
+          min: { message: "Age must be greater than 10", value: 10 },
+          max: { message: "Age must be less than 100", value: 100 }
+        })}
+      />
       {errors.age && <FormMessage message={errors.age.message} />}
-    </div>
+    </FormItem>
 
     <Button className="mt-2" type="submit">Submit</Button>
     <Button type="button" onClick={() => setCount(count + 1)}>Count: {count}</Button>
@@ -62,11 +71,23 @@ function Form1() {
 
 function Form2() {
 
-  const { handleSubmit } = useForm<{ description: string }>()
+  const { createSubmitHandler, register, formState } = useForm<{ description: string }>()
+  const { errors } = formState
 
-  return <form {...handleSubmit()}>
-    <p>Form2</p>
-    <button>Submit</button>
+  const submitHandler = createSubmitHandler(async (data, event) => {
+    console.log(data, event)
+  })
+
+  return <form
+    {...submitHandler}
+    className="flex flex-col gap-2 w-full"
+  >
+    <FormItem>
+      <Label htmlFor="description">Description</Label>
+      <Input placeholder="Description" type="text" {...register('description')} />
+      {errors.description && <FormMessage message={errors.description.message} />}
+    </FormItem>
+    <Button className="mt-2">Submit</Button>
   </form>
 
   // return <p>Form2</p>
@@ -82,8 +103,14 @@ function Form4() {
 
 const steps: FormStep[] = [
   {
+    // peristent: true,
     components: [
       Form1,
+    ]
+  },
+  {
+    // peristent: true,
+    components: [
       Form2,
     ]
   },
@@ -146,6 +173,7 @@ export default function Page() {
     //   console.log('onPreviousFirstStep')
     // }}
     enableLog
+    name="form-1"
     className="flex flex-col items-center justify-center h-screen w-full max-w-[400px] gap-8 mx-auto"
     steps={steps}
   >

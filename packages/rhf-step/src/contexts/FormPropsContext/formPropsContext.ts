@@ -6,6 +6,7 @@ export type IFormPropsContext = {
   className?: string // enable container mode
   initialStepIndex?: number
   enableLog?: boolean
+  name?: string
   logLevel?: LogLevel[]
   initialSubStepIndex?: number
   defaultValues?: Record<string, any>

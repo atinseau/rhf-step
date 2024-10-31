@@ -10,7 +10,7 @@ export function useHandleSubmit<
 >(form: UseFormReturnRHF<TFieldValues, TContext>) {
 
   const formRef = useRef<HTMLFormElement>()
-  const { onSubmitCallback, updateStepMemory } = useFormContext()
+  const { onSubmitCallback } = useFormContext()
 
   const handleSubmit: UseFormHandleSubmit<TFieldValues> = useCallback((onSubmitHandler) => {
     return {
@@ -30,7 +30,6 @@ export function useHandleSubmit<
           result = error
         }
 
-        updateStepMemory(data)
         onSubmitCallback({
           result,
           data
